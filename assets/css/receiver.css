@@ -1,0 +1,347 @@
+.receiver-page {
+  position: relative;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.receiver-stage {
+  position: relative;
+  width: min(100vw, calc(100svh * 1.7779));
+  aspect-ratio: 1672 / 941;
+  opacity: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  transform-origin: 72% 39%;
+}
+
+.is-powered .receiver-stage {
+  animation: receiver-wake 560ms cubic-bezier(.18, .72, .2, 1) forwards;
+}
+
+.is-off .receiver-stage {
+  animation: receiver-sleep 520ms ease-in forwards;
+}
+
+.scene-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.sofa-hotspot {
+  position: absolute;
+  z-index: 3;
+  top: 37%;
+  left: 5%;
+  width: 65%;
+  height: 58%;
+  visibility: hidden;
+  pointer-events: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-clip-path: polygon(0 5%, 14% 0, 58% 8%, 72% 17%, 100% 31%, 99% 88%, 71% 100%, 9% 77%, 2% 60%);
+  clip-path: polygon(0 5%, 14% 0, 58% 8%, 72% 17%, 100% 31%, 99% 88%, 71% 100%, 9% 77%, 2% 60%);
+}
+
+.receiver-page.is-powered:not(.is-off):not([data-scene="black"]) .sofa-hotspot {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.receiver-page[data-scene="black"] .receiver-stage {
+  /* Темнее уже не станет. Наверное. */
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  aspect-ratio: auto;
+  transform: none;
+}
+
+.receiver-page[data-scene="black"] .scene-frame {
+  display: none;
+}
+
+.receiver-page[data-scene="black"] .screen-mask {
+  display: none;
+}
+
+.screen-mask {
+  position: absolute;
+  top: 27.5%;
+  left: 61.5%;
+  width: 20.8%;
+  height: 22.5%;
+  overflow: hidden;
+  clip-path: polygon(3% 0, 98% 4%, 96% 98%, 0 94%);
+  filter: saturate(0.5);
+  transform: rotate(0.45deg);
+}
+
+.screen-mask::before,
+.screen-mask::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.screen-mask::before {
+  z-index: 2;
+  opacity: 0.17;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.12) 0,
+    rgba(255, 255, 255, 0.12) 1px,
+    rgba(0, 0, 0, 0.22) 2px,
+    rgba(0, 0, 0, 0.22) 3px
+  );
+  animation: scan-drift 7s linear infinite;
+}
+
+.screen-mask::after {
+  z-index: 1;
+  opacity: 0.1;
+  background:
+    radial-gradient(circle at 28% 42%, rgba(255,255,255,.75) 0 1px, transparent 2px),
+    radial-gradient(circle at 71% 63%, rgba(255,255,255,.65) 0 1px, transparent 2px);
+  background-size: 9px 7px, 13px 11px;
+  animation: noise-shift 240ms steps(2, end) infinite;
+}
+
+.opening-caption,
+.signal-caption,
+.voice-caption,
+.tv-caption,
+.epilogue-caption {
+  position: absolute;
+  z-index: 4;
+  max-width: none;
+  margin: 0;
+  color: rgba(248, 249, 246, 0.97);
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+  font-weight: 500;
+  text-shadow:
+    0 0 0.35rem rgba(235, 248, 250, 0.78),
+    0 0 1.2rem rgba(198, 222, 228, 0.44),
+    0 2px 0.8rem rgba(0, 0, 0, 0.9);
+}
+
+.opening-caption {
+  top: 50%;
+  left: 50%;
+  width: min(76%, 62rem);
+  font-size: clamp(1.35rem, 3.2cqw, 3.5rem);
+  line-height: 1.22;
+  letter-spacing: 0.12em;
+  transform: translate(-50%, -50%);
+  transition: opacity 180ms linear;
+}
+
+.opening-caption.is-long {
+  font-size: clamp(1.1rem, 2.55cqw, 2.8rem);
+  letter-spacing: 0.07em;
+}
+
+.signal-caption {
+  top: 16%;
+  left: 55%;
+  width: 36%;
+  font-size: clamp(1rem, 1.75cqw, 1.8rem);
+  line-height: 1.28;
+  letter-spacing: 0.055em;
+  text-align: center;
+  clip-path: inset(100% 0 0 0);
+  transform: translateY(3.2cqw);
+  transition: opacity 180ms linear, transform 460ms ease-out, clip-path 460ms ease-out;
+}
+
+.signal-caption.is-visible {
+  clip-path: inset(0);
+  transform: translateY(0);
+}
+
+.signal-caption.is-long {
+  font-size: clamp(0.9rem, 1.5cqw, 1.5rem);
+}
+
+.voice-caption {
+  top: 6.5%;
+  left: 17%;
+  width: 58%;
+  font-size: clamp(1.15rem, 2.25cqw, 2.4rem);
+  line-height: 1.24;
+  letter-spacing: 0.035em;
+  text-align: center;
+  transform: translateY(0.8rem);
+  transition: opacity 220ms ease-out, transform 300ms ease-out;
+}
+
+.voice-caption.is-visible {
+  transform: translateY(0);
+}
+
+.voice-caption.is-long {
+  font-size: clamp(1rem, 1.85cqw, 2rem);
+}
+
+.tv-caption {
+  top: 16%;
+  left: 55%;
+  width: 36%;
+  font-size: clamp(1rem, 1.75cqw, 1.8rem);
+  line-height: 1.28;
+  letter-spacing: 0.055em;
+  text-align: center;
+  transition: opacity 180ms linear;
+}
+
+.tv-caption.is-long {
+  font-size: clamp(0.9rem, 1.5cqw, 1.5rem);
+}
+
+.cipher-focus {
+  display: inline-block;
+  color: #fff;
+  text-shadow:
+    0 0 0.3rem rgba(255, 255, 255, 1),
+    0 0 0.85rem rgba(220, 241, 246, 0.95);
+  animation: cipher-focus 1.1s steps(2, end) infinite;
+}
+
+.epilogue-caption {
+  position: fixed;
+  z-index: 8;
+  top: 50%;
+  left: 50%;
+  width: min(88vw, 52rem);
+  margin: 0;
+  font-size: clamp(0.8rem, 2.1vw, 1.5rem);
+  line-height: 1.8;
+  letter-spacing: 0.12em;
+  text-align: center;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  transform: translate(-50%, -46%);
+  transition: opacity 420ms ease-out, transform 700ms ease-out;
+}
+
+.epilogue-caption.is-visible {
+  transform: translate(-50%, -50%);
+}
+
+.has-signal-pulse .screen-mask {
+  filter: brightness(1.45) contrast(1.35) saturate(0.2);
+  transform: translateX(0.35%) skewX(-1deg) rotate(0.45deg);
+}
+
+.has-signal-break .receiver-stage {
+  filter: contrast(1.5) brightness(1.18);
+  transform: translateX(-0.45%);
+}
+
+.has-signal-break .screen-mask {
+  clip-path: polygon(2% 3%, 98% 7%, 96% 42%, 3% 38%, 5% 53%, 96% 57%, 94% 96%, 1% 92%);
+  filter: brightness(1.65) contrast(1.6) grayscale(1);
+}
+
+@keyframes receiver-wake {
+  0% { opacity: 0; clip-path: inset(49.8% 49% 49.8% 49%); filter: brightness(4); }
+  24% { opacity: 1; clip-path: inset(49.4% 4% 49.4% 4%); filter: brightness(2.8); }
+  48% { clip-path: inset(18% 1% 18% 1%); filter: brightness(1.45); }
+  100% { opacity: 1; clip-path: inset(0); filter: brightness(1); }
+}
+
+@keyframes receiver-sleep {
+  0% { opacity: 1; clip-path: inset(0); filter: brightness(1); }
+  62% { opacity: 1; clip-path: inset(49.2% 3% 49.2% 3%); filter: brightness(2.8); }
+  78% { opacity: 1; clip-path: inset(49.6% 48.8% 49.6% 48.8%); filter: brightness(5); }
+  100% { opacity: 0; clip-path: inset(50%); }
+}
+
+@keyframes scan-drift {
+  from { background-position-y: 0; }
+  to { background-position-y: 12px; }
+}
+
+@keyframes noise-shift {
+  0% { background-position: 0 0, 0 0; }
+  50% { background-position: 3px -2px, -4px 2px; }
+  100% { background-position: -2px 3px, 2px -3px; }
+}
+
+@keyframes cipher-focus {
+  0%, 88%, 100% { opacity: 1; }
+  90% { opacity: 0.48; }
+  94% { opacity: 0.82; }
+}
+
+@media (orientation: portrait) {
+  .receiver-stage {
+    width: 170vw;
+    max-width: none;
+    transform: translateX(-39vw);
+  }
+
+  .has-signal-break .receiver-stage {
+    transform: translateX(-39.6vw);
+  }
+
+  .receiver-page[data-scene="black"] .receiver-stage {
+    width: 100vw;
+    transform: none;
+  }
+
+  .voice-caption {
+    top: 2.5%;
+    left: 24%;
+    width: 54%;
+  }
+
+  .signal-caption {
+    top: 12%;
+    left: 37%;
+    width: 38%;
+  }
+
+  .tv-caption {
+    top: 12%;
+    left: 37%;
+    width: 38%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-mask::before,
+  .screen-mask::after,
+  .cipher-focus {
+    animation: none;
+  }
+
+  .has-signal-break .receiver-stage,
+  .has-signal-pulse .screen-mask {
+    transform: none;
+  }
+
+  .signal-caption,
+  .signal-caption.is-visible,
+  .voice-caption,
+  .voice-caption.is-visible {
+    transform: none;
+    transition-duration: 0.01ms;
+  }
+}
+
+@media (orientation: portrait) and (prefers-reduced-motion: reduce) {
+  .has-signal-break .receiver-stage {
+    transform: translateX(-39vw);
+  }
+
+  .receiver-page[data-scene="black"].has-signal-break .receiver-stage {
+    transform: none;
+  }
+}
