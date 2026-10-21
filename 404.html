@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Signal</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23020202'/%3E%3Crect x='5' y='7' width='22' height='16' rx='3' fill='none' stroke='%23888' stroke-width='2'/%3E%3Cpath d='M9 15h14' stroke='%23d8dde0' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='27' r='1' fill='%23666'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/receiver-04/signal-state-v1.css?v=2"><script src="/receiver-04/signal-sound-v1.js"></script><script src="/receiver-04/signal-state-v1.js?v=2"></script></head>
+<body class="void-page">
+  <main class="signal-center" aria-live="polite">
+    <p class="signal-message" id="lost-signal">Сигнал не существует.</p>
+    <p class="signal-message" id="unborn-signal">Или ещё не существует.</p>
+  </main>
+  <script>
+    const first = document.querySelector('#lost-signal');
+    const second = document.querySelector('#unborn-signal');
+    setTimeout(() => first.classList.add('is-visible'), 2200);
+    setTimeout(() => first.classList.remove('is-visible'), 5600);
+    setTimeout(() => second.classList.add('is-visible'), 6800);
+    setTimeout(() => second.classList.remove('is-visible'), 10600);
+  </script>
+</body>
+</html>
